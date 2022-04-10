@@ -220,8 +220,6 @@ function handleColor(ticket){
     
     
 }
-    
-defaultModel();
 // after creating model set model container to default 
 
 function defaultModel(){
