@@ -15,6 +15,32 @@ let colors  = ["lightpink", "lightblue", "lightgreen", "black"];
 let modalPriorityColor = colors[colors.length -1];                     
 // Listener for modal priority-color
 
+
+let ticketArr = [];
+let toolboxcolor = document.querySelectorAll(".color");
+
+// toolboxcolor.forEach((ele)=>{
+//        ele.addEventListener("click",(e)=>{
+//             let currentClickColor  = ele.classList[0];
+
+//             let filterTicket = ticketArr.filter(obj=>{
+//                 let fil = obj.ticketColor;
+//                 return fil === currentClickColor;
+//             })
+
+//         // console.log(filterTicket);
+//         let allticket = document.querySelectorAll(".ticket-cont");
+//         allticket.forEach((ele)=>{
+//             ele.addEventListener("click",(e)=>{
+//                 ele.remove(); 
+//                 // console.log(ele)               
+//             })
+//         })
+
+//        });
+    
+// });
+
 allPriorityColors.forEach((colorEle , idx) => {
     colorEle.addEventListener('click',(e)=>{
         allPriorityColors.forEach((priorityColorEle ,idx)=>{
@@ -40,7 +66,7 @@ addbtn.addEventListener("click" , (e)=>
 
 removebtn.addEventListener('click', (e)=>{
         
-        removeFlag = !removeFlag;
+        removeFlag =!removeFlag;
         if(removeFlag === true)
         {
             removebtn.style.background  = "red";
@@ -73,6 +99,8 @@ function createTicket(ticketColor , ticketValue , uniqueId){
                 <div class="ticket-lock"><i class="fas fa-lock"></i></div>
     `;
     mainCont.appendChild(ticketCont);
+
+    ticketArr.push({ticketColor , ticketValue , uniqueId});
     handleRemove(ticketCont , uniqueId);
     handleLock(ticketCont);
     handleColor(ticketCont);
@@ -80,28 +108,19 @@ function createTicket(ticketColor , ticketValue , uniqueId){
 }
 
 function handleRemove(ticket , uniqueId)
-{
-    // // console.log(uniqueId)   
-    // let maincont  = document.querySelectorAll(".main-cont");
-    // maincont.forEach((ele)=>{
-    //     // console.log(ele);
-    //     ele.addEventListener("click",(e)=>{
-    //         let el = ele.childNodes;
-    //         console.log(el[3].children[1].innerHTML);
-    //         if(el[3].children[1].innerHTML === uniqueId)
-    //         {
-                
-    //             // console.log(ticket)
-    //         }
-    //     })
+{    
+    // console.log(ticket);
     
-
-    // })
-
-    // singlecont.addEventListener("click",(e)=>{
-    //         // if(removeFlag) ticket.remove();
-    // })
-   
+            
+        let allticket = document.querySelectorAll(".ticket-cont");
+        console.log(allticket)
+        allticket.forEach((ele)=>{
+            ele.addEventListener("click",(e)=>{
+            
+                if(removeFlag) ele.remove(); 
+                // console.log(ele)               
+                })
+        })         
 }
 
 function handleLock(ticket){
@@ -128,6 +147,13 @@ function handleLock(ticket){
 
 }
 
+
+
+
+
+
+
+
 let lightpink  = colors[0]; 
 let lightblue  = colors[1];
 let lightgreen = colors[2];
@@ -138,34 +164,34 @@ let black      = colors[3];
 function handleColor(ticket){
     
     let ticketcont = ticket.querySelector(".ticket-color");
-    console.log(ticketcont);
+    // console.log(ticketcont);
         ticketcont.addEventListener("click", (e)=>{
             let currentColor = ticketcont.classList[1];
             if(currentColor === "black")
             {
             //  let index = colors.indexOf("black");
-                console.log(currentColor)
+                // console.log(currentColor)
                 ticketcont.classList.remove("black");
                 ticketcont.classList.add(lightpink);
               
             }
             else if(currentColor === "lightgreen")
             {
-                console.log(currentColor);
+                // console.log(currentColor);
                 ticketcont.classList.remove("lightgreen");
                 ticketcont.classList.add(black);
 
             }
             else if(currentColor === "lightblue")
             {
-                console.log(currentColor);
+                // console.log(currentColor);
                 ticketcont.classList.remove("lightblue");
                 ticketcont.classList.add(lightgreen);
 
             }
             else if(currentColor === "lightpink")
             {
-                console.log(currentColor);
+                // console.log(currentColor);
                 ticketcont.classList.remove("lightpink");
                 ticketcont.classList.add(lightblue);
 

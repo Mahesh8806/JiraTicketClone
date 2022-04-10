@@ -235,6 +235,7 @@ body{
 
 .ticket-cont
 {
+    margin-bottom: 30px;
     height: 15rem;
     width: 17rem;
     background-color: #dfe4ea;
