@@ -19,33 +19,51 @@ let modalPriorityColor = colors[colors.length -1];
 let ticketArr = [];
 let toolboxcolor = document.querySelectorAll(".color");
 
-// toolboxcolor.forEach((ele)=>{
-//        ele.addEventListener("click",(e)=>{
-//             let currentClickColor  = ele.classList[0];
+toolboxcolor.forEach((ele)=>{
+       ele.addEventListener("click",(e)=>{
+            let currentClickColor  = ele.classList[0];
 
-//             let filterTicket = ticketArr.filter(obj=>{
-//                 let fil = obj.ticketColor;
-//                 return fil === currentClickColor;
-//             })
+            let filterTicket = ticketArr.filter((obj)=>{
+                let fil = obj.ticketColor;
+                return fil === currentClickColor;
+            })
 
-//         // console.log(filterTicket);
-//         let allticket = document.querySelectorAll(".ticket-cont");
-//         allticket.forEach((ele)=>{
-//             ele.addEventListener("click",(e)=>{
-//                 ele.remove(); 
-//                 // console.log(ele)               
-//             })
-//         })
+            console.log(filterTicket);
 
-//        });
+            let allticket = document.querySelectorAll(".ticket-cont");
+            allticket.forEach((ele)=>{
+                    ele.remove(); 
+                    // console.log(ele)  
+            })
+
+            filterTicket.forEach((obj)=>{
+                createTicket(obj.ticketColor , obj.ticketValue,obj.uniqueId);
+            })
+
+            })
+
+             //COde to get all ticket return on double click on any color...
+            ele.addEventListener("dblclick",(e)=>{
+                let allticket = document.querySelectorAll(".ticket-cont");
+                    allticket.forEach((obj)=>{
+                    obj.remove();
+                })
+                ticketArr.forEach((obj)=>{
+                    createTicket(obj.ticketColor , obj.ticketValue , obj.uniqueId);
+                })
+
+             });
     
-// });
+});
 
 allPriorityColors.forEach((colorEle , idx) => {
     colorEle.addEventListener('click',(e)=>{
+
+        //to remove previous border 
         allPriorityColors.forEach((priorityColorEle ,idx)=>{
             priorityColorEle.classList.remove('border');
         })
+        //Add border to clicked element 
         colorEle.classList.add("border");
         modalPriorityColor = colorEle.classList[0];
         // console.log(modalPriorityColor);       
@@ -76,32 +94,33 @@ removebtn.addEventListener('click', (e)=>{
         }
 })
 
-modalcont.addEventListener("keydown",(e)=>{
+modalcont.addEventListener("keyup",(e)=>{
     let key = e.key;
 
     if(key === "Shift")
     {
-        createTicket(modalPriorityColor , textArea.value , shortid());
-        modalcont.style.display = 'none';
+        createTicket(modalPriorityColor , textArea.value);
         flag = false;
-        textArea.value = "" ;
+        defaultModel();
+       
     }
 })
 
 
 function createTicket(ticketColor , ticketValue , uniqueId){
+    let id = uniqueId || shortid();
     let ticketCont = document.createElement("div");
     ticketCont.setAttribute("class", "ticket-cont");
     ticketCont.innerHTML = `
                 <div class="ticket-color ${ticketColor}"></div>
-                <div class="ticket-id">${uniqueId}</div>
+                <div class="ticket-id">#${id}</div>
                 <div class="task-area"> ${ticketValue}</div>
                 <div class="ticket-lock"><i class="fas fa-lock"></i></div>
     `;
     mainCont.appendChild(ticketCont);
 
-    ticketArr.push({ticketColor , ticketValue , uniqueId});
-    handleRemove(ticketCont , uniqueId);
+    if(!uniqueId) ticketArr.push({ticketColor , ticketValue , uniqueId: id });
+    handleRemove(ticketCont , id);
     handleLock(ticketCont);
     handleColor(ticketCont);
 
@@ -113,7 +132,7 @@ function handleRemove(ticket , uniqueId)
     
             
         let allticket = document.querySelectorAll(".ticket-cont");
-        console.log(allticket)
+        // console.log(allticket)
         allticket.forEach((ele)=>{
             ele.addEventListener("click",(e)=>{
             
@@ -124,11 +143,11 @@ function handleRemove(ticket , uniqueId)
 }
 
 function handleLock(ticket){
-    let ticketLockEle = document.querySelector(".ticket-lock");
-    let ticketTask  = document.querySelector(".task-area");
+    let ticketLockEle = ticket.querySelector(".ticket-lock");
+    let ticketTask  = ticket.querySelector(".task-area");
 
     let ticketLock = ticketLockEle.children[0];
-
+     
     ticketLock.addEventListener("click",(e)=>{
         if(ticketLock.classList.contains(lockClass))
         {
@@ -202,3 +221,16 @@ function handleColor(ticket){
     
 }
     
+defaultModel();
+// after creating model set model container to default 
+
+function defaultModel(){
+    allPriorityColors.forEach((colorEle , idx) => { 
+        //to remove previous border 
+        colorEle.classList.remove('border');
+    })
+    allPriorityColors[allPriorityColors.length -1].classList.add("border");
+    modalPriorityColor = colors[colors.length -1];
+    modalcont.style.display = 'none';
+    textArea.value = "" ;
+}
