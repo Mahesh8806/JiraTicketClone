@@ -128,10 +128,10 @@ function handleLock(ticket){
 
 }
 
-let lightpink = "lightpink"; 
-let lightblue = "lightblue";
-let lightgreen = "lightgreen";
-let black = "black";
+let lightpink  = colors[0]; 
+let lightblue  = colors[1];
+let lightgreen = colors[2];
+let black      = colors[3];
 
 
 
